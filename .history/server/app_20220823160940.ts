@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import express from "express";
-// import cors from "cors";
+import cors from "cors";
 import { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -14,7 +14,7 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-// app.use(cors());
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

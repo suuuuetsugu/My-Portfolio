@@ -2,4 +2,4 @@ import { Router } from "express";
 
 export const router = Router();
 
-router.get("/", (req, res, next) => res.send('さしすせそ'));
+router.get("/", (req, res, next) => res.send('あいうえお'));
