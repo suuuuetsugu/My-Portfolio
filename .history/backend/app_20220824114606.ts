@@ -3,13 +3,11 @@ import express from "express";
 import { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import logger from "morgan";
 
 import { router as indexRouter } from "./routes/index";
 import { router as profilesRouter } from "./routes/profiles";
 import { router as worksRouter } from "./routes/works";
-import { router as goodRouter } from "./routes/good";
 
 const app = express();
 
@@ -17,7 +15,6 @@ const app = express();
 app.set('views', path.join('views'));
 app.set('view engine', 'jade');
 
-app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,7 +24,6 @@ app.use(express.static(path.join('public')));
 app.use('/', indexRouter);
 app.use('/profiles', profilesRouter);
 app.use('/works', worksRouter);
-app.use('/good', goodRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req: Request, res: Response, next: NextFunction) {
