@@ -67,7 +67,7 @@ const Home: any = (props: Props) => {
   // ボタン押したらAPIにデータを送るイベント　このままじゃ動かないので上のイベントと組み合わせたい
   const goodData = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    setGoodCount(goodCount + 1);
+    // setGoodCount(goodCount + 1);
     try {
       const body = {
         "count": goodCount,

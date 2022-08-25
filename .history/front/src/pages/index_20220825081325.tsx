@@ -6,8 +6,7 @@ import { useState } from 'react';
 
 // とりあえずAPI書く
 // TODO:fetcher関数を作りたい
-export const getServerSideProps: GetServerSideProps = async () => {
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const profilesRes = await fetch(`http://express:3000/profiles`)
   const profiles = await profilesRes.json()
 
@@ -72,7 +71,7 @@ const Home: any = (props: Props) => {
       const body = {
         "count": goodCount,
       };
-      await fetch(`http://localhost:3001/good/${props.good[0].id}`, {
+      await fetch(`http://localhost:3001/good`, {
         mode: 'cors',
         method: 'PATCH',
         headers: {

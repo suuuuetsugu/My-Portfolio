@@ -6,8 +6,7 @@ import { useState } from 'react';
 
 // とりあえずAPI書く
 // TODO:fetcher関数を作りたい
-export const getServerSideProps: GetServerSideProps = async () => {
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const profilesRes = await fetch(`http://express:3000/profiles`)
   const profiles = await profilesRes.json()
 
@@ -59,43 +58,16 @@ const Home: any = (props: Props) => {
   // いいねのカウント（ボタン押すたびにいいね数を増やす実装）
   const [goodCount, setGoodCount] = useState(props.good[0].count)
 
-  // ボタン押したらプラス1する
-  // const handleClick = () => {
-  //   setGoodCount(goodCount + 1);
-  // };
-  
-  // ボタン押したらAPIにデータを送るイベント　このままじゃ動かないので上のイベントと組み合わせたい
-  const goodData = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+  const handleClick = () => {
     setGoodCount(goodCount + 1);
-    try {
-      const body = {
-        "count": goodCount,
-      };
-      await fetch(`http://localhost:3001/good/${props.good[0].id}`, {
-        mode: 'cors',
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'User-Agent': '*',
-        },
-        body: JSON.stringify(body),
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-    } catch (error) {
-        console.error(error);
-    }
-  }
+  };
 
   return (
     <div className={styles.container}>
       {/* <Head> */}
         {/* <title>ポートフォリオ（仮）</title> */}
         <p>ポートフォリオ（仮）</p>
-        <button onClick={() => goodData}>❤︎{goodCount}</button>
+        <button onClick={handleClick}>❤︎ {props.good[0].count}</button>
       {/* </Head> */}
 
       <main className={styles.main}>

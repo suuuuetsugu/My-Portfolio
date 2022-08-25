@@ -2,12 +2,10 @@ import type { NextPage } from 'next'
 import styles from '../Home.module.css'
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { useState } from 'react';
 
 // とりあえずAPI書く
 // TODO:fetcher関数を作りたい
-export const getServerSideProps: GetServerSideProps = async () => {
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const profilesRes = await fetch(`http://express:3000/profiles`)
   const profiles = await profilesRes.json()
 
@@ -19,6 +17,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return { props: { profiles, good, works }}
 };
+
+// いいねのカウントできるようにする
 
 // 型定義
 // TODO:他のところでも使うので型定義ファイル作成したい
@@ -56,46 +56,13 @@ type Props = {
 // TODO:anyをなくす
 // TODO:コンポーネント化する
 const Home: any = (props: Props) => {
-  // いいねのカウント（ボタン押すたびにいいね数を増やす実装）
-  const [goodCount, setGoodCount] = useState(props.good[0].count)
-
-  // ボタン押したらプラス1する
-  // const handleClick = () => {
-  //   setGoodCount(goodCount + 1);
-  // };
-  
-  // ボタン押したらAPIにデータを送るイベント　このままじゃ動かないので上のイベントと組み合わせたい
-  const goodData = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    setGoodCount(goodCount + 1);
-    try {
-      const body = {
-        "count": goodCount,
-      };
-      await fetch(`http://localhost:3001/good/${props.good[0].id}`, {
-        mode: 'cors',
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'User-Agent': '*',
-        },
-        body: JSON.stringify(body),
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-    } catch (error) {
-        console.error(error);
-    }
-  }
-
+  console.log(props)
   return (
     <div className={styles.container}>
       {/* <Head> */}
         {/* <title>ポートフォリオ（仮）</title> */}
         <p>ポートフォリオ（仮）</p>
-        <button onClick={() => goodData}>❤︎{goodCount}</button>
+        <p>いいね数{props.good[0].count}</p>
       {/* </Head> */}
 
       <main className={styles.main}>
@@ -106,17 +73,16 @@ const Home: any = (props: Props) => {
         <Link href={`https://${props.profiles[0].github_id}.github.io`}>GitHub</Link>
         <p>{props.profiles[0].introduction}</p>
         <p>＜作品一覧＞</p>
-        <div>
+        <p>
           {props.works.map((work) => {
             return (
               <div key={work.id}>
                 <div>{work.title}</div>
                 <img src={work.image_url_1} width={200} height={150} />
-                <p>作品詳細ページへのリンク作る</p>
               </div>
             )
           })}
-        </div>
+        </p>
       </main>
 
       <footer className={styles.footer}>

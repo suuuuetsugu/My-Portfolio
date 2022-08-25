@@ -19,36 +19,6 @@ router.get('/', async(req: Request, res: Response, next: NextFunction) => {
   logger.info('Info Get good end');
 });
 
-// GET good id:1
-router.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
-  logger.info('Info Get good id start');
-  try {
-    const good = await prisma.good.findMany();
-    res.json(good);
-  } catch (error) {
-    next(error);
-  }
-  logger.info('Info Get good id end');
-});
-
-// PATCH good
-// router.patch('/:id', async(req: Request, res: Response, next: NextFunction) => {
-//   logger.info('Info Patch good start');
-//   try {
-//     const { id } = req.params
-//     const good = await prisma.good.update({
-//       where: {
-//         id: Number(id),
-//       },
-//       data: req.body
-//     })
-//     res.json(good);
-//   } catch (error) {
-//     next(error)
-//   }
-//   logger.info('Info Patch good end');
-// });
-
 // PATCH good
 router.patch('/:id', async(req: Request, res: Response, next: NextFunction) => {
   logger.info('Info Patch good start');

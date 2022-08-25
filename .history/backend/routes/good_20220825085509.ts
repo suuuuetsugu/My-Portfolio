@@ -50,13 +50,12 @@ router.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
 // });
 
 // PATCH good
-router.patch('/:id', async(req: Request, res: Response, next: NextFunction) => {
+router.patch('/', async(req: Request, res: Response, next: NextFunction) => {
   logger.info('Info Patch good start');
   try {
-    const { id } = req.params
     const good = await prisma.good.update({
       where: {
-        id: Number(id),
+        id: 1,
       },
       data: req.body
     })
