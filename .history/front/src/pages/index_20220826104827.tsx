@@ -3,6 +3,8 @@ import styles from '../Home.module.css'
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
+import Signin from './signin';
+import Login from 'components/Login';
 
 // とりあえずAPI書く
 // TODO:fetcher関数を作りたい
@@ -96,6 +98,8 @@ const Home: any = (props: Props) => {
         <button onClick={handleClick}>❤︎{goodCount}</button>
 
       <main className={styles.main}>
+        <Signin />
+        <Login />
         <Link href={`/login`}><a>ログイン</a></Link>
         <p>＜プロフィール＞</p>
         <p>{props.profiles[0].name}</p>

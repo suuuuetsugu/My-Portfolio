@@ -72,7 +72,7 @@ const Edit= (props: Props) => {
     <>
       <div>
         <form onSubmit={submitData}>
-          <h1>Edit Work</h1>
+          <h1>Edit Profile</h1>
           <input
             autoFocus
             onChange={(e) => setTitle(e.currentTarget.value)}
