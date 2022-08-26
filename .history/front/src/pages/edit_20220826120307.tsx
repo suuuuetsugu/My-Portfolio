@@ -55,6 +55,7 @@ async function deleteWork(id: number) {
 }
 
 // 情報の表示と編集画面への遷移先のリンク、作品削除ボタン
+// TODO:変数名変更
 const Show = (props: Props) => {
   return (
     <>

@@ -96,7 +96,7 @@ const Home: any = (props: Props) => {
         <button onClick={handleClick}>❤︎{goodCount}</button>
 
       <main className={styles.main}>
-        <Link href={`/login`}><a>ログイン</a></Link>
+        {/* <Link href={`/login`}><a>ログイン</a></Link> */}
         <p>＜プロフィール＞</p>
         <p>{props.profiles[0].name}</p>
         <p>{props.profiles[0].occupation}</p>
