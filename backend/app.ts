@@ -2,9 +2,15 @@ import createHttpError from "http-errors";
 import express from "express";
 import { Request, Response, NextFunction } from "express";
 import path from "path";
-import cookieParser from "cookie-parser";
+// import cookieParser from "cookie-parser";
 import cors from "cors";
-import logger from "morgan";
+import multer from "multer";
+import fs from "fs";
+// import logger from "morgan";
+
+// TODO:不要なミドルウェアはアンインストール、コメントアウト部分を最後に削除する
+
+const upload = multer({ dest: "upload/" }) // ファイルのアップロード先を指定
 
 import { router as indexRouter } from "./routes/index";
 import { router as profilesRouter } from "./routes/profiles";
@@ -17,11 +23,17 @@ const app = express();
 app.set('views', path.join('views'));
 app.set('view engine', 'jade');
 
+// これは後からworkのAPIに追加が必要
+// app.get('/test', (req, res) => {
+//   console.log(req.file, req.body)
+//   res.send("🤗")
+// })
+
 app.use(cors());
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join('public')));
 
 app.use('/', indexRouter);

@@ -1,59 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
-import { GetServerSideProps } from 'next';
+import axios from 'axios'
 
-/*　
-* ＜作品の新規追加ができるページにする＞
-* 入力欄を作成
-* クリックイベントでPOSTできる仕組みにする
-* 画像の変更ができる仕組みを入れる
-*/
-
-// POST：新しい作品の追加
-const Add = () => {
-    // フォーム入力値をAPIへ登録するまで保持するためのstate
+// 新しい作品の追加
+const Upload = () => {
+    // TODO:型定義を変更、コメントアウト不要なら消す
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [image_url_1, setImage_url_1] = useState<string>('');
-    const [image_url_2, setImage_url_2] = useState<string>('');
-    const [image_url_3, setImage_url_3] = useState<string>('');
+    const [image_url_1, setImage_url_1] = useState<any>();
+    const [image_url_2, setImage_url_2] = useState<any>();
+    const [image_url_3, setImage_url_3] = useState<any>();
     
     const submitData = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const body = {
-                "title": title,
-                "description": description,
-                "image_url_1": image_url_1,
-                "image_url_2": image_url_2,
-                "image_url_3": image_url_3,
-                "profileId": 1
-            };
-        await fetch(`http://localhost:3001/works`, {
-           mode: 'cors',
-           method: 'POST',
-           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'User-Agent': '*',
-           },
-           body: JSON.stringify(body),
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        // return TOP page
-        await Router.push('/');
-        } catch (error) {
-            console.error(error);
-        }
+        const data = new FormData()
+        data.append("title", title)
+        data.append("description", description)
+        data.append("image_url_1", image_url_1)
+        data.append("image_url_2", image_url_2)
+        data.append("image_url_3", image_url_3)
+        data.append("profileId", "1")
+        console.log(data)
+        const result = await axios.post('http://localhost:3001/works', data)
+        // try {
+        //     const body = {
+        //         "title": title,
+        //         "description": description,
+        //         "image_url_1": image_url_1,
+        //         "image_url_2": image_url_2,
+        //         "image_url_3": image_url_3,
+        //         "profileId": 1
+        //     };
+        // await fetch(`http://localhost:3001/works`, {
+        //    mode: 'cors',
+        //    method: 'POST',
+        //    headers: {
+        //     'Content-Type': 'application/json',
+        //     'Accept': 'application/json',
+        //     'User-Agent': '*',
+        //    },
+        //    body: JSON.stringify(body),
+        // })
+        // .then(function (response) {
+        //     console.log(response);
+        // })
+        // // return TOP page
+        // await Router.push('/');
+        // } catch (error) {
+        //     console.error(error);
+        // }
     }
 
   return (
     <>
       <div>
         <form onSubmit={submitData}>
-          <h1>New Task</h1>
+          <h1>作品の新規登録</h1>
           <input
             autoFocus
             onChange={(e) => setTitle(e.currentTarget.value)}
@@ -68,8 +70,22 @@ const Add = () => {
             rows={8}
             value={description}
           />
-          <a>ここに画像を保存するための仕組み入れる</a>
-          <input disabled={!description || !title } type="submit" value="Create" />
+          <input
+          onChange={e => setImage_url_1(e.currentTarget.files![0])} 
+          type="file" 
+          accept="image/*"
+          ></input>
+          <input
+          onChange={e => setImage_url_2(e.currentTarget.files![0])} 
+          type="file" 
+          accept="image/*"
+          ></input>
+          <input
+          onChange={e => setImage_url_3(e.currentTarget.files![0])} 
+          type="file" 
+          accept="image/*"
+          ></input>
+          <input disabled={!description || !title || !image_url_1 } type="submit" value="Create" />
           <a className="back" href="#" onClick={() => Router.push('/')}>
             or Cancel
           </a>
@@ -79,4 +95,4 @@ const Add = () => {
   );
 };
 
-export default  Add;
+export default  Upload;

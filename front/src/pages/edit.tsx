@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import Mypage from 'components/Mypage';
-
-// この中に書くこと
-// 登録されてるプロフィールと作品・それぞれ編集ページ・作品の新規追加ページ・TOPページへのリンク
+import DashboardPage from './dashboard';
 
 // プロフィール・作品一覧取得
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -59,7 +56,6 @@ const Show = (props: Props) => {
   return (
     <>
       <div>
-      <Mypage />
       <main>
         <p>＜プロフィール＞</p>
         <p>名前:{props.profiles[0].name}</p>

@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
-import styles from '../Home.module.css'
+import styles from '../styles/Home.module.css'
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
+import Header from 'components/Header';
 
 // とりあえずAPI書く
 // TODO:fetcher関数を作りたい
@@ -92,7 +93,8 @@ const Home: any = (props: Props) => {
 
   return (
     <div className={styles.container}>
-        <p>ポートフォリオ（仮）</p>
+      <Header />
+        <h2>ポートフォリオ</h2>
         <button onClick={handleClick}>❤︎{goodCount}</button>
 
       <main className={styles.main}>
