@@ -29,7 +29,6 @@ type Pram = {
 }
 
 const task = (param: Pram) => {
-    console.log(param)
   return (
     <>
       <p>🌱作品詳細</p>
