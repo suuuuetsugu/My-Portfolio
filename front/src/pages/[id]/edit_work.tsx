@@ -1,12 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import { GetServerSideProps } from 'next';
+import nookies from "nookies";
+import { firebaseAdmin } from "../../firebaseAdmin";
 
 // 作品一覧取得
-export const getServerSideProps: GetServerSideProps = async (context)=>{
-  const id = context.query.id
+export const getServerSideProps: GetServerSideProps = async (ctx)=>{
+  const id = ctx.query.id
   const worksRes = await fetch(`http://express:3000/works/${id}`)
   const works = await worksRes.json()
+
+  const cookies = nookies.get(ctx);
+  const session = cookies.session || "";
+  
+  // セッションIDを検証して、認証情報を取得する
+  const user = await firebaseAdmin
+    .auth()
+    .verifySessionCookie(session, true)
+    .catch(() => null);
+  
+  // 認証情報が無い場合は、404画面を表示させる
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
  
   return{
     props: { works }

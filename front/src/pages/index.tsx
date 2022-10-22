@@ -57,45 +57,40 @@ type Props = {
 // TODO:anyをなくす
 // TODO:コンポーネント化する
 const Home: any = (props: Props) => {
-  // いいねのカウント（ボタン押すたびにいいね数を増やす実装）
-  const [goodCount, setGoodCount] = useState(props.good[0].count)
+  console.log(props)
+  const [goodCount, setGoodCount] = useState(props.good[0].count);
 
-  // ボタン押したらプラス1する
-  const handleClick = () => {
-    setGoodCount(goodCount + 1);
-  };
   
-  // ボタン押したらAPIにデータを送るイベント　このままじゃ動かないので上のイベントと組み合わせたい
+  // ボタンクリックでgoodAPIのcount数を1増やす
   const goodData = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    // setGoodCount(goodCount + 1);
-    try {
-      const body = {
-        "count": goodCount,
-      };
-      await fetch(`http://localhost:3001/good/${props.good[0].id}`, {
-        mode: 'cors',
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'User-Agent': '*',
-        },
-        body: JSON.stringify(body),
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-    } catch (error) {
-        console.error(error);
-    }
+
+    setGoodCount(goodCount + 1);
+
+    const body = {
+      "count": goodCount + 1,
+    };
+    await fetch(`http://localhost:3001/good/${props.good[0].id}`, {
+      mode: 'cors',
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'User-Agent': '*',
+      },
+      body: JSON.stringify(body),
+    })
+    .then(function (response) {
+      console.log(response);
+    })
   }
 
   return (
     <div className={styles.container}>
       <Header />
         <h2>ポートフォリオ</h2>
-        <button onClick={handleClick}>❤︎{goodCount}</button>
+        {/* <button onClick={handleClick}>❤︎{goodCount}</button> */}
+        {/* <button onClick={goodData}>❤︎{props.good[0].count}</button> */}
+        <button onClick={goodData}>❤︎{goodCount}</button>
 
       <main className={styles.main}>
         <Link href={`/login`}><a>ログイン</a></Link>

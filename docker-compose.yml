@@ -15,7 +15,7 @@ services:
     volumes:
       - ./:/src
     working_dir: "/src/backend"
-    command: sh -c 'npx tsc; npm run dev'
+    # command: npm run start:debug
 
   mysql:
     build: ./database/dockerfile
@@ -44,3 +44,4 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
     working_dir: "/src/front"
+    command: npm run dev

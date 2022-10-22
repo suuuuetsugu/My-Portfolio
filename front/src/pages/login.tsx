@@ -15,7 +15,7 @@ const LoginPage: NextPage = () => {
     event.preventDefault(); // デフォルトの<form />の挙動を無効にする
     try {
       await login(email, password); // email・passwordを使ってログイン
-      router.push("/dashboard"); // ダッシュボードページへ遷移させる
+      router.push("/edit"); // ダッシュボードページへ遷移させる
     } catch(error) {
       alert("メールアドレスまたはパスワードが間違っています");
     }

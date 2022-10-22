@@ -2,15 +2,37 @@ import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import DashboardPage from './dashboard';
+import nookies from "nookies";
+import { useRouter } from "next/router";
+import { logout } from "../utils";
+import { firebaseAdmin } from "../firebaseAdmin";
 
 // プロフィール・作品一覧取得
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const profilesRes = await fetch(`http://express:3000/profiles`)
   const profiles = await profilesRes.json()
 
   const worksRes = await fetch(`http://express:3000/works`)
   const works = await worksRes.json()
+
+  const cookies = nookies.get(ctx);
+        const session = cookies.session || "";
+        
+        // セッションIDを検証して、認証情報を取得する
+        const user = await firebaseAdmin
+          .auth()
+          .verifySessionCookie(session, true)
+          .catch(() => null);
+        
+        // 認証情報が無い場合は、404画面を表示させる
+        if (!user) {
+          return {
+            redirect: {
+              destination: "/404",
+              permanent: false,
+            },
+          };
+        }
  
   return{
     props: { profiles, works }
@@ -53,6 +75,13 @@ async function deleteWork(id: number) {
 
 // 情報の表示と編集画面への遷移先のリンク、作品削除ボタン
 const Show = (props: Props) => {
+  const router = useRouter();
+
+  const onLogout = async () => {
+    await logout(); // ログアウトさせる
+    router.push("/"); // トップページへ遷移させる
+  };
+
   return (
     <>
       <div>
@@ -78,6 +107,7 @@ const Show = (props: Props) => {
             )
           })}
         </div>
+        <button onClick={onLogout}>Logout</button>
         <Link href='/'><a>TOP</a></Link>
       </main>
       </div>
