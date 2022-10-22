@@ -5,30 +5,9 @@ import { useRouter } from "next/router";
 
 import { logout } from "../utils";
 import { firebaseAdmin } from "../firebaseAdmin";
-import Show from "./edit";
-
-type Profiles = {
-    id: number;
-    name: string;
-    occupation: string;
-    introduction: string;
-    twitter_id: string;
-    github_id: string;
-    email: string;
-}
-
-type Works = {
-    id: number;
-    title: string;
-    description: string;
-    image_url_1: string;
-    image_url_2: string;
-    image_url_3: string;
-    profileId: number;
-  }
 
 
-// TODO:APIの関数をコンポーネント化しないと上手く結合できない（一旦非表示）
+
 const DashboardPage: NextPage<{ email: string }> = ({ email }) => {
   const router = useRouter();
 
@@ -45,7 +24,6 @@ const DashboardPage: NextPage<{ email: string }> = ({ email }) => {
 
       <button onClick={onLogout}>Logout</button>
 
-      {/* <Show profiles={[]} works={[]} /> */}
     </div>
   );
 };
